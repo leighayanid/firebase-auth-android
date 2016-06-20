@@ -11,6 +11,14 @@ public class User {
     String username;
     String email;
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public User() {
     }
 

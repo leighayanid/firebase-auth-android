@@ -11,17 +11,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import sample.com.firebaseauth.model.User;
 import sample.com.firebaseauth.utils.Constants;
 
 public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.username)
     EditText mUsername;
     @BindView(R.id.email)
@@ -29,13 +31,15 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.password)
     EditText mPassword;
 
+    String username ,email,password;
+
     @OnClick(R.id.register)
     void register(){
         showProgressDialog(this,"","Signing up..");
         //get input values
-        final String username = mUsername.getText().toString().trim();
-        final String email = mEmail.getText().toString().trim();
-        final String password = mPassword.getText().toString().trim();
+        username = mUsername.getText().toString().trim();
+        email = mEmail.getText().toString().trim();
+        password = mPassword.getText().toString().trim();
 
         // [Register user]
         Constants.mAuth.createUserWithEmailAndPassword(email,password)
@@ -68,10 +72,21 @@ public class RegisterActivity extends BaseActivity {
 
     private void authenticateUser(String email, String password, FirebaseUser user) {
         //let the user access the main screen of the application
-        Intent intent = new Intent(this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+
+        User newUser= new User();
+        newUser.setEmail(email);
+        newUser.setUsername(username);
+
+        Constants.mDatabase.child("users").setValue(newUser, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

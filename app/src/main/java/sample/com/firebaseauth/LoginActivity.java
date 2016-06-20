@@ -68,4 +68,5 @@ public class LoginActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
     }
+
 }

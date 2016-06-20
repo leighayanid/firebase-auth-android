@@ -26,6 +26,13 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.pager)
     ViewPager pager;
 
+    int[] tabIcon = {
+            R.drawable.ic_home_white,
+            R.drawable.ic_event_white,
+            R.drawable.ic_favorite_white,
+            R.drawable.ic_trending_up_white
+    };
+
     @OnClick(R.id.fab)
     void click() {
         //fab clicked!
@@ -59,6 +66,9 @@ public class MainActivity extends BaseActivity {
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(adapter);
         tabLayout.setupWithViewPager(pager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(tabIcon[i]);
+        }
     }
 
     @Override
@@ -111,7 +121,7 @@ public class MainActivity extends BaseActivity {
             return 4;
         }
 
-        public CharSequence getPageTitle(int position) {
+       /* public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
                     return "Home";
@@ -124,7 +134,8 @@ public class MainActivity extends BaseActivity {
                 default:
                     return "";
             }
-        }
+        }*/
+        
     }
 
 }

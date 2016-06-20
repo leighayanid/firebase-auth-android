@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FirebaseAuth</string>
+    <string name="app_name">Firebase Auth</string>
     <string name="action_settings">Settings</string>
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>

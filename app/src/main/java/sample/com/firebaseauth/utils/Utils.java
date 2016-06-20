@@ -9,7 +9,7 @@ import android.net.NetworkInfo;
  */
 public class Utils {
 
-    public boolean isConnectionAvailable(Context context){
+    public static boolean isConnectionAvailable(Context context){
         ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = mgr.getActiveNetworkInfo();
 

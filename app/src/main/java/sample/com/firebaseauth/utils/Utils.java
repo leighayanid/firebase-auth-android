@@ -13,7 +13,7 @@ public class Utils {
         ConnectivityManager mgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = mgr.getActiveNetworkInfo();
 
-        boolean isConnected = info.isConnectedOrConnecting();
+        boolean isConnected = info!=null && info.isConnectedOrConnecting();
         if (isConnected){
             return true;
         }else{

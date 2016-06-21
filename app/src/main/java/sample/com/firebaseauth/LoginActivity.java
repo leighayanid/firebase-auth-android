@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,34 +26,39 @@ public class LoginActivity extends BaseActivity {
     EditText email;
     @BindView(R.id.password)
     EditText password;
+    @BindView(R.id.login)
+    Button loginButton;
 
     // [ LOGIN USER ]
     @OnClick(R.id.login)
     void login() {
 
-        if (Utils.isConnectionAvailable(this)) {
+        if (Utils.isConnectionAvailable(LoginActivity.this)) {
 
-            showProgressDialog(this, "", "Logging in..");
             //get inputs
             String emailAdd = email.getText().toString().trim();
             String userPassword = password.getText().toString().trim();
 
-            Constants.mAuth.signInWithEmailAndPassword(emailAdd, userPassword)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                //proceed to main activity
-                                dismissDialog();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class)
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
-                            } else {
-                                //something went wrong
-                                dismissDialog();
+            if (validateForms(email,password)){
+                showProgressDialog(this, "", "Logging in..");
+                Constants.mAuth.signInWithEmailAndPassword(emailAdd, userPassword)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    //proceed to main activity
+                                    dismissDialog();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class)
+                                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                                } else {
+                                    //something went wrong
+                                    dismissDialog();
 
+                                }
                             }
-                        }
-                    });
+                        });
+            }
+
         } else {
             Toast.makeText(LoginActivity.this, "No internet connection available.", Toast.LENGTH_SHORT).show();
         }

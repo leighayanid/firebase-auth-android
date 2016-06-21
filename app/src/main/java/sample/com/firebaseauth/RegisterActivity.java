@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -93,18 +94,19 @@ public class RegisterActivity extends BaseActivity {
 
         newUser.setCreatedAt(createdAt);
 
-        Constants.mDatabase.child("users").push().setValue(newUser, new DatabaseReference.CompletionListener() {
+        Constants.mDatabase.child("users" + "/" + getUid()).setValue(newUser, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
-                if (databaseError!=null){
+                if (databaseError==null){
                     //let the user access the main screen of the application
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }else {
-                   //THERE WAS AN ERROR SIGNING UP USER
+                    //THERE WAS AN ERROR SIGNING UP USER
+                    Log.e(TAG, "Error authenticating user.");
                 }
             }
         });

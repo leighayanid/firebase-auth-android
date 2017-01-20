@@ -79,7 +79,6 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
     }
 
 }

@@ -42,7 +42,7 @@ public class MainActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
 
-        if (Constants.mAuth.getCurrentUser() != null) {
+        if (Constants.user != null) {
             //user is logged in
         } else {
             //proceed to login activity
